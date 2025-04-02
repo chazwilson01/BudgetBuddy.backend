@@ -4,26 +4,49 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FinanceTracker.API.Notis;
-
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("Default");
+Console.WriteLine($"Using connection string: {connectionString}");
+
 
 // Add services to the container
 builder.Services.AddHttpClient<PlaidService>();
 builder.Services.AddScoped<PlaidService>();
 builder.Services.AddControllers(); // Enable attribute routing
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
 builder.Services.AddScoped<IPasswordService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-    // In Program.cs or Startup.cs
-// Add these lines to your existing Program.cs
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ISmsService, SmsService>();
 builder.Services.AddHostedService<BiweeklyMessageService>();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
+// Add response compression
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
+
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
+
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Events = new JwtBearerEvents
@@ -47,12 +70,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 // CORS: allow React frontend (adjust origin for production)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact",
-        policy => policy.WithOrigins("http://localhost:5173") // React dev server
+        policy => policy.WithOrigins("http://localhost:5173", "https://white-sea-0314caa0f.6.azurestaticapps.net") // React dev server
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
@@ -60,6 +82,21 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+////  Supabase setup
+//var supabaseUrl = builder.Configuration["Supabase:Url"];
+//var supabaseKey = builder.Configuration["Supabase:Key"];
+
+
+//var supabaseOptions = new SupabaseOptions
+//{
+//    AutoConnectRealtime = true
+//};
+
+//var supabaseClient = new Supabase.Client(supabaseUrl, supabaseKey, supabaseOptions);
+//supabaseClient.InitializeAsync().GetAwaiter().GetResult();
+
+//builder.Services.AddSingleton(supabaseClient);
 
 var app = builder.Build();
 
@@ -72,9 +109,21 @@ if (app.Environment.IsDevelopment())
 
 // Middleware
 app.UseHttpsRedirection();
+app.UseResponseCompression(); // Enable response compression
 app.UseCors("AllowReact"); // enable CORS
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Add security headers
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+    context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+    context.Response.Headers.Add("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+    await next();
+});
 
 app.MapControllers(); // enable attribute routing (e.g., PlaidController)
 

@@ -80,6 +80,10 @@
             "Twilio": {
               "target": "Package",
               "version": "[7.9.1, )"
+            },
+            "supabase": {
+              "target": "Package",
+              "version": "[1.1.1, )"
             }
           },
           "imports": [
