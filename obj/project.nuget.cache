@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4M3/PbdZkhk=",
+  "dgSpecHash": "CSqtJd1hGew=",
   "success": true,
-  "projectFilePath": "C:\\Users\\chazw\\FinanceTracker\\FinanceTracker.API\\FinanceTracker.API.csproj",
+  "projectFilePath": "C:\\Users\\chazw\\BudgetBuddy\\FinanceTracker.API\\FinanceTracker.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\chazw\\.nuget\\packages\\bouncycastle.cryptography\\2.5.1\\bouncycastle.cryptography.2.5.1.nupkg.sha512",
     "C:\\Users\\chazw\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 Console.WriteLine($"Using connection string: {connectionString}");
+Console.WriteLine($"CLIENT ID: {builder.Configuration["Plaid:ClientId"]}");
+Console.WriteLine($"PLAID SECRET: {builder.Configuration["Plaid:Secret"]}");
 
 
 // Add services to the container

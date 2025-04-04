@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chazw\\FinanceTracker\\FinanceTracker.API\\FinanceTracker.API.csproj": {}
+    "C:\\Users\\chazw\\BudgetBuddy\\FinanceTracker.API\\FinanceTracker.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chazw\\FinanceTracker\\FinanceTracker.API\\FinanceTracker.API.csproj": {
+    "C:\\Users\\chazw\\BudgetBuddy\\FinanceTracker.API\\FinanceTracker.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chazw\\FinanceTracker\\FinanceTracker.API\\FinanceTracker.API.csproj",
+        "projectUniqueName": "C:\\Users\\chazw\\BudgetBuddy\\FinanceTracker.API\\FinanceTracker.API.csproj",
         "projectName": "FinanceTracker.API",
-        "projectPath": "C:\\Users\\chazw\\FinanceTracker\\FinanceTracker.API\\FinanceTracker.API.csproj",
+        "projectPath": "C:\\Users\\chazw\\BudgetBuddy\\FinanceTracker.API\\FinanceTracker.API.csproj",
         "packagesPath": "C:\\Users\\chazw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chazw\\FinanceTracker\\FinanceTracker.API\\obj\\",
+        "outputPath": "C:\\Users\\chazw\\BudgetBuddy\\FinanceTracker.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
