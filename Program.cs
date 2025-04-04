@@ -99,9 +99,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-Console.WriteLine($"Using connection string: {connectionString}");
-Console.WriteLine($"CLIENT ID: {builder.Configuration["Plaid:ClientId"]}");
-Console.WriteLine($"PLAID SECRET: {builder.Configuration["Plaid:Secret"]}");
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Using connection string: {ConnectionString}", connectionString);
+logger.LogInformation("CLIENT ID: {ClientId}", builder.Configuration["Plaid:ClientId"]);
+logger.LogInformation("PLAID SECRET: {Secret}", builder.Configuration["Plaid:Secret"]);
+
 
 
 // Enable Swagger for API testing in dev
