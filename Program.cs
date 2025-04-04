@@ -74,7 +74,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact",
-        policy => policy.WithOrigins("http://localhost:5173", "https://white-sea-0314caa0f.6.azurestaticapps.net") // React dev server
+        policy => policy.WithOrigins("http://localhost:5173", "https://white-sea-0314caa0f.6.azurestaticapps.net", "https://budgetbuddy-780a2.web.app") // React dev server
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
