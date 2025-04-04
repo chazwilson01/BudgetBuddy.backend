@@ -11,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
+builder.Logging.ClearProviders();        // Optional: clears default
+builder.Logging.AddConsole();            // Enables console output via ILogger
+builder.Logging.SetMinimumLevel(LogLevel.Information); // Optional: ensure INFO logs show up
 
 // Add services to the container
 builder.Services.AddHttpClient<PlaidService>();
