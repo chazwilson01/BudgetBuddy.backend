@@ -10,9 +10,6 @@ using System.IO.Compression;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
-Console.WriteLine($"Using connection string: {connectionString}");
-Console.WriteLine($"CLIENT ID: {builder.Configuration["Plaid:ClientId"]}");
-Console.WriteLine($"PLAID SECRET: {builder.Configuration["Plaid:Secret"]}");
 
 
 // Add services to the container
@@ -101,6 +98,11 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton(supabaseClient);
 
 var app = builder.Build();
+
+Console.WriteLine($"Using connection string: {connectionString}");
+Console.WriteLine($"CLIENT ID: {builder.Configuration["Plaid:ClientId"]}");
+Console.WriteLine($"PLAID SECRET: {builder.Configuration["Plaid:Secret"]}");
+
 
 // Enable Swagger for API testing in dev
 if (app.Environment.IsDevelopment())
