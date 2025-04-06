@@ -6,8 +6,13 @@ using System.Text;
 using FinanceTracker.API.Notis;
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
+using Microsoft.Extensions.DependencyInjection;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddEnvironmentVariables();
+
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
@@ -18,7 +23,10 @@ builder.Logging.SetMinimumLevel(LogLevel.Information); // Optional: ensure INFO 
 // Add services to the container
 builder.Services.AddHttpClient<PlaidService>();
 builder.Services.AddScoped<PlaidService>();
+
+
 builder.Services.AddControllers(); // Enable attribute routing
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));

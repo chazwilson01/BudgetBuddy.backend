@@ -5,19 +5,27 @@ public class PlaidService
 {
     private readonly HttpClient _http;
     private readonly IConfiguration _config;
+    private readonly string _apiKey;
+    private readonly string _apiSecret;
+
+
+
 
     public PlaidService(HttpClient http, IConfiguration config)
     {
         _http = http;
         _config = config;
+        _apiKey = _config["Plaid:Id"] ?? "default_if_missing";
+        _apiSecret = _config["Plaid:Secret"] ?? "default_if_missing";
+
     }
 
     public async Task<string> ExchangePublicToken(string publicToken)
     {
         var body = new
         {
-            client_id = _config["Plaid:ClientId"],
-            secret = _config["Plaid:Secret"],
+            client_id = _apiKey,
+            secret = _apiSecret,
             public_token = publicToken
         };
 
@@ -32,8 +40,8 @@ public class PlaidService
         var webhookUrl = $"budgetbuddy-fxg4g3ccbbe2buet.centralus-01.azurewebsites.net";
         var request = new
         {
-            client_id = _config["Plaid:ClientId"],
-            secret = _config["Plaid:Secret"],
+            client_id = _apiKey,
+            secret = _apiSecret,
             user = new { client_user_id = "user-123" },
             client_name = "Finance Tracker",
             products = new[] { "transactions" },
@@ -50,8 +58,8 @@ public class PlaidService
     {
         var body = new
         {
-            client_id = _config["Plaid:ClientId"],
-            secret = _config["Plaid:Secret"],
+            client_id = _apiKey,
+            secret = _apiSecret,
             access_token = accessToken,
             start_date = startDate.ToString("yyyy-MM-dd"),
             end_date = endDate.ToString("yyyy-MM-dd")
