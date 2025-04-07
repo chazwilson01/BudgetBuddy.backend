@@ -22,6 +22,8 @@ public class PlaidService
 
     public async Task<string> ExchangePublicToken(string publicToken)
     {
+
+        Console.WriteLine($"Exchanging public token: {publicToken}");
         var body = new
         {
             client_id = _apiKey,
@@ -35,7 +37,7 @@ public class PlaidService
 
     public async Task<string> CreateLinkToken()
     {
-
+        Console.WriteLine($"Creating link token", _apiKey, _apiSecret);
         var publicUrl = await GetNgrokPublicUrl();
         var webhookUrl = $"budgetbuddy-fxg4g3ccbbe2buet.centralus-01.azurewebsites.net";
         var request = new
