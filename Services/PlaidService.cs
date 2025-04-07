@@ -37,7 +37,7 @@ public class PlaidService
 
     public async Task<string> CreateLinkToken()
     {
-        Console.WriteLine($"Creating link token", _apiKey, _apiSecret);
+        return _apiSecret;
         var publicUrl = await GetNgrokPublicUrl();
         var webhookUrl = $"budgetbuddy-fxg4g3ccbbe2buet.centralus-01.azurewebsites.net";
         var request = new
