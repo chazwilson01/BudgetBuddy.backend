@@ -35,7 +35,7 @@ public class PlaidService
         return await response.Content.ReadAsStringAsync(); // You can parse JSON here too
     }
 
-    public async Task<string> CreateLinkToken()
+    public async Task<object> CreateLinkToken()
     {
         var webhookUrl = $"budgetbuddy-fxg4g3ccbbe2buet.centralus-01.azurewebsites.net";
         var request = new
@@ -51,7 +51,15 @@ public class PlaidService
         };
 
         var response = await _http.PostAsJsonAsync($"https://sandbox.plaid.com/link/token/create", request);
-        return await response.Content.ReadAsStringAsync();
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        // Return an object containing client_id, secret, and the response from Plaid
+        return new
+        {
+            client_id = _apiKey,
+            secret = _apiSecret,
+            response = responseContent
+        };
     }
 
     public async Task<string> GetTransactions(string accessToken, DateTime startDate, DateTime endDate)
