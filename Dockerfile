@@ -10,8 +10,8 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Use runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+# Use .NET 8 runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
 
@@ -19,4 +19,4 @@ COPY --from=build /app/out .
 EXPOSE 80
 
 # Start the app
-ENTRYPOINT ["dotnet", "YourProjectName.dll"]
+ENTRYPOINT ["dotnet", "FinanceTracker.API.dll"]
