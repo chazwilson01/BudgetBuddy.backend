@@ -15,7 +15,7 @@ public class PlaidService
     {
         _http = http;
         _config = config;
-        _apiKey = _config["Plaid:Id"] ?? "default_if_missing";
+        _apiKey = _config["Plaid:ClientId"] ?? "default_if_missing";
         _apiSecret = _config["Plaid:Secret"] ?? "default_if_missing";
 
     }
