@@ -1,5 +1,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using FinanceTracker.API.Models;
+using System.Security.Claims;
 
 public class PlaidService
 {
@@ -42,7 +44,7 @@ public class PlaidService
         {
             client_id = _apiKey,
             secret = _apiSecret,
-            user = new { client_user_id = "user-123" },
+            user = new { client_user_id = int.Parse(ClaimTypes.NameIdentifier) },
             client_name = "Finance Tracker",
             products = new[] { "transactions" },
             country_codes = new[] { "US" },
@@ -58,6 +60,7 @@ public class PlaidService
         {
             client_id = _apiKey,
             secret = _apiSecret,
+            user = new { client_user_id = int.Parse(ClaimTypes.NameIdentifier) },
             response = responseContent
         };
     }
